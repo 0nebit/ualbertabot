@@ -126,6 +126,11 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
     int numReaver           = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Reaver);
     int numDarkTeplar       = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Dark_Templar);
 
+	int numCarriers = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Carrier);
+	int numArbiters = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Arbiter);
+	int numStargate = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Stargate);
+	int numFleetBeacon = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Fleet_Beacon);
+
     if (Config::Strategy::StrategyName == "Protoss_ZealotRush")
     {
         goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 8));
@@ -162,6 +167,21 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
             goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Dragoon, numDragoons + 4));
         }
     }
+	else if (Config::Strategy::StrategyName == "Protoss_Air")
+	{
+
+		
+		if (numNexusAll >= 2)
+		{
+			if (numStargate == 0) {
+				goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Stargate, 1));;
+			}
+			else if (numFleetBeacon == 0)
+			{
+				goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Fleet_Beacon, 1));
+			}
+		}
+	}
     else
     {
         UAB_ASSERT_WARNING(false, "Unknown Protoss Strategy Name: %s", Config::Strategy::StrategyName.c_str());
