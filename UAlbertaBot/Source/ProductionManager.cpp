@@ -335,7 +335,7 @@ void ProductionManager::create(BWAPI::Unit producer, BuildOrderItem & item)
     MetaType t = item.metaType;
 
     // if we're dealing with a building
-    if (t.isUnit() && t.getUnitType().isBuilding() 
+	if (t.isUnit() && (t.getUnitType().isBuilding() || t.getUnitType().canProduce())
         && t.getUnitType() != BWAPI::UnitTypes::Zerg_Lair 
         && t.getUnitType() != BWAPI::UnitTypes::Zerg_Hive
         && t.getUnitType() != BWAPI::UnitTypes::Zerg_Greater_Spire
