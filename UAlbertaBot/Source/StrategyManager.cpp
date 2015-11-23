@@ -122,13 +122,14 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
 	int numNexusAll         = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Nexus);
 	int numCyber            = BWAPI::Broodwar->self()->completedUnitCount(BWAPI::UnitTypes::Protoss_Cybernetics_Core);
 	int numCannon           = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Photon_Cannon);
-    int numScout            = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Corsair);
+    int numScout            = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Scout);
     int numReaver           = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Reaver);
     int numDarkTeplar       = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Dark_Templar);
 
 	int numCarriers			= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Carrier);
 	int numStargate			= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Stargate);
 	int numInterceptors		= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Interceptor);
+	int numBeacon			= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Fleet_Beacon);
 
     if (Config::Strategy::StrategyName == "Protoss_ZealotRush")
     {
@@ -168,18 +169,27 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
     }
 	else if (Config::Strategy::StrategyName == "Protoss_Air")
 	{
-	/*	if (numCarriers <= 3) {
+		if (numCarriers <= 3) {
 			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 4));
-		}*/
+		}
 
 		if (numStargate >= 1) {
 			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Carrier, numCarriers + 1));
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Corsair, numScout + 2));
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Scout, numScout + 1));
+		}
+
+		if (numBeacon == 0)
+		{
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Fleet_Beacon, 1));
+		}
+
+		if (numStargate < 2)
+		{
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Stargate, 1));
 		}
 		
-		while (numInterceptors/8 < numCarriers) {
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Interceptor, 8));
-			numInterceptors++;
+		if (numInterceptors < numCarriers * 8) {
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Interceptor, numCarriers * 8));
 		}
 
 		if (numNexusAll >= 2)

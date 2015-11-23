@@ -43,23 +43,6 @@ void ProductionManager::performBuildOrderSearch()
     }
 }
 
-void ProductionManager::createBuildOrder()
-{
-	BuildOrder buildOrder(BWAPI::Races::Protoss);
-
-	MetaPairVector mpv = StrategyManager::Instance().getBuildOrderGoal();
-
-	for (auto & metaPair : mpv)
-	{
-		for (int i = 0; i < metaPair.second; i++)
-		{
-			buildOrder.add(metaPair.first);
-		}
-	}
-
-	setBuildOrder(buildOrder);
-}
-
 void ProductionManager::update() 
 {
 	// check the _queue for stuff we can build
@@ -73,7 +56,6 @@ void ProductionManager::update()
 		    BWAPI::Broodwar->drawTextScreen(150, 10, "Nothing left to build, new search!");
         }
 
-		//createBuildOrder();
 		performBuildOrderSearch();
 	}
 
@@ -142,7 +124,6 @@ void ProductionManager::onUnitDestroy(BWAPI::Unit unit)
 		{
 			if (unit->getType() != BWAPI::UnitTypes::Zerg_Drone)
 			{
-				//createBuildOrder();
 				performBuildOrderSearch();
 			}
 		}
@@ -309,6 +290,17 @@ BWAPI::Unit ProductionManager::getProducer(MetaType t, BWAPI::Position closestTo
         candidateProducers.insert(unit);
     }
 
+	if (t.getUnitType() == BWAPI::UnitTypes::Protoss_Interceptor)
+	{
+		for (auto & c : candidateProducers) 
+		{
+			if (c->getInterceptorCount() < 8)
+			{
+				return c;
+			} 
+		} 
+	} 
+
     return getClosestUnitToPosition(candidateProducers, closestTo);
 }
 
@@ -378,13 +370,6 @@ void ProductionManager::create(BWAPI::Unit producer, BuildOrderItem & item)
             producer->morph(t.getUnitType());
         // if not, train the unit
         } 
-		else if (t.getUnitType() == BWAPI::UnitTypes::Protoss_Carrier) {
-			BWAPI::Broodwar->printf("Creating Carrier");
-			BWAPI::Broodwar->printf("spellcaster: %d", t.getUnitType().isSpellcaster());
-			BWAPI::Broodwar->printf("attack: %d", t.getUnitType().canAttack());
-			BWAPI::Broodwar->printf("produce: %d", t.getUnitType().canProduce());
-			producer->train(t.getUnitType());
-		}
         else 
         {
             producer->train(t.getUnitType());

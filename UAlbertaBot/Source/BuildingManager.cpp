@@ -388,15 +388,15 @@ std::vector<BWAPI::UnitType> BuildingManager::buildingsQueued()
         }
     }
 
-	for (auto & carrier : BWAPI::Broodwar->self()->getUnits())
-	{
-		if (carrier->getType() == BWAPI::UnitTypes::Protoss_Carrier)
-		{
-			if (!(carrier->isCompleted())){
-			buildingsQueued.push_back(carrier->getType());
-			}
-		}
-	}
+	//for (auto & carrier : BWAPI::Broodwar->self()->getUnits())
+	//{
+	//	if (carrier->getType() == BWAPI::UnitTypes::Protoss_Carrier)
+	//	{
+	//		if (!(carrier->isBeingConstructed())){
+	//		buildingsQueued.push_back(carrier->getType());
+	//		}
+	//	}
+	//}
 
     return buildingsQueued;
 }
