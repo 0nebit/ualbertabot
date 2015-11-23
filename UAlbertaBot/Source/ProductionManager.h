@@ -41,6 +41,8 @@ class ProductionManager
     int                 getFreeGas();
     bool                canPlanBuildOrderNow() const;
 
+	void				createBuildOrder();
+
 public:
 
     static ProductionManager &	Instance();

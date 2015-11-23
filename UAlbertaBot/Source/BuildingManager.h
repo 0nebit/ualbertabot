@@ -31,7 +31,6 @@ class BuildingManager
 
     char            getBuildingWorkerCode(const Building & b) const;
     
-
 public:
     
     static BuildingManager &	Instance();

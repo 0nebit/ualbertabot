@@ -168,17 +168,17 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
     }
 	else if (Config::Strategy::StrategyName == "Protoss_Air")
 	{
-		if (numCarriers <= 3) {
+	/*	if (numCarriers <= 3) {
 			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 4));
-		}
+		}*/
 
 		if (numStargate >= 1) {
 			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Carrier, numCarriers + 1));
 			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Corsair, numScout + 2));
 		}
 		
-		while (numInterceptors / 8 < numCarriers) {
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Interceptor, 1));
+		while (numInterceptors/8 < numCarriers) {
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Interceptor, 8));
 			numInterceptors++;
 		}
 
