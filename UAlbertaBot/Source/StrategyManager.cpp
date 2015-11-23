@@ -126,10 +126,9 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
     int numReaver           = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Reaver);
     int numDarkTeplar       = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Dark_Templar);
 
-	int numCarriers = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Carrier);
-	int numArbiters = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Arbiter);
-	int numStargate = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Stargate);
-	int numFleetBeacon = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Fleet_Beacon);
+	int numCarriers			= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Carrier);
+	int numStargate			= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Stargate);
+	int numInterceptors		= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Interceptor);
 
     if (Config::Strategy::StrategyName == "Protoss_ZealotRush")
     {
@@ -169,16 +168,25 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
     }
 	else if (Config::Strategy::StrategyName == "Protoss_Air")
 	{
+		if (numCarriers <= 3) {
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 4));
+		}
 
+		if (numStargate >= 1) {
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Carrier, numCarriers + 1));
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Corsair, numScout + 2));
+		}
 		
+		while (numInterceptors / 8 < numCarriers) {
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Interceptor, 1));
+		}
+
 		if (numNexusAll >= 2)
 		{
-			if (numStargate == 0) {
-				goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Stargate, 1));;
-			}
-			else if (numFleetBeacon == 0)
-			{
+			if (numStargate <= 1) {
+				goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Stargate, 1));
 				goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Fleet_Beacon, 1));
+				goal.push_back(MetaPair(BWAPI::UpgradeTypes::Carrier_Capacity, 1));
 			}
 		}
 	}
