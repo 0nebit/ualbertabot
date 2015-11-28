@@ -125,7 +125,13 @@ void MicroManager::regroup(const BWAPI::Position & regroupPosition) const
 	// for each of the units we have
 	for (auto & unit : _units)
 	{
-        int unitDistanceFromBase = MapTools::Instance().getGroundDistance(unit->getPosition(), ourBasePosition);
+		int unitDistanceFromBase;
+		if (unit->isFlying()){
+			unitDistanceFromBase = MapTools::Instance().getAirDistance(unit->getPosition(), ourBasePosition);
+		}
+		else {
+			unitDistanceFromBase = MapTools::Instance().getGroundDistance(unit->getPosition(), ourBasePosition);
+		}
 
 		// if the unit is outside the regroup area
         if (unitDistanceFromBase > regroupDistanceFromBase)

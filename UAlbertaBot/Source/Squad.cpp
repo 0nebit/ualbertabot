@@ -386,8 +386,14 @@ BWAPI::Unit Squad::unitClosestToEnemy()
 			continue;
 		}
 
+		int dist;
 		// the distance to the order position
-		int dist = MapTools::Instance().getGroundDistance(unit->getPosition(), _order.getPosition());
+		if (unit->isFlying()){
+			dist = MapTools::Instance().getAirDistance(unit->getPosition(), _order.getPosition());
+		}
+		else {
+			dist = MapTools::Instance().getGroundDistance(unit->getPosition(), _order.getPosition());
+		}
 
 		if (dist != -1 && (!closest || dist < closestDist))
 		{
