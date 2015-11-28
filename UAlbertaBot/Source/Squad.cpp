@@ -65,6 +65,8 @@ void Squad::update()
 		_rangedManager.execute(_order);
         _tankManager.execute(_order);
         _medicManager.execute(_order);
+		// may need to change here
+		_transportManager.execute(_order);
 		_transportManager.update();
 
 		_detectorManager.setUnitClosestToEnemy(unitClosestToEnemy());

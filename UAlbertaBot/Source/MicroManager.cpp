@@ -63,53 +63,65 @@ void MicroManager::execute(const SquadOrder & inputOrder)
 
 	// the following block of code attacks all units on the way to the order position
 	// we want to do this if the order is attack, defend, or harass
-	if (order.getType() == SquadOrderTypes::Attack || order.getType() == SquadOrderTypes::Defend) 
+	if (order.getType() == SquadOrderTypes::Attack || order.getType() == SquadOrderTypes::Defend)
 	{
-        // if this is a worker defense force
-        if (_units.size() == 1 && (*_units.begin())->getType().isWorker())
-        {
-            executeMicro(nearbyEnemies);
-        }
-        // otherwise it is a normal attack force
-        else
-        {
-            // if this is a defense squad then we care about all units in the area
-            if (order.getType() == SquadOrderTypes::Defend)
-            {
-                executeMicro(nearbyEnemies);
-            }
-            // otherwise we only care about workers if they are in their own region
-            else
-            {
-                 // if this is the an attack squad
-                BWAPI::Unitset workersRemoved;
+		// if this is a worker defense force
+		if (_units.size() == 1 && (*_units.begin())->getType().isWorker())
+		{
+			executeMicro(nearbyEnemies);
+		}
+		// otherwise it is a normal attack force
+		else
+		{
+			// if this is a defense squad then we care about all units in the area
+			if (order.getType() == SquadOrderTypes::Defend)
+			{
+				executeMicro(nearbyEnemies);
+			}
+			// otherwise we only care about workers if they are in their own region
+			else
+			{
+				// if this is the an attack squad
+				BWAPI::Unitset workersRemoved;
 
-                for (auto & enemyUnit : nearbyEnemies) 
-		        {
-                    // if its not a worker add it to the targets
-			        if (!enemyUnit->getType().isWorker())
-                    {
-                        workersRemoved.insert(enemyUnit);
-                    }
-                    // if it is a worker
-                    else
-                    {
-                        for (BWTA::Region * enemyRegion : InformationManager::Instance().getOccupiedRegions(BWAPI::Broodwar->enemy()))
-                        {
-                            // only add it if it's in their region
-                            if (BWTA::getRegion(BWAPI::TilePosition(enemyUnit->getPosition())) == enemyRegion)
-                            {
-                                workersRemoved.insert(enemyUnit);
-                            }
-                        }
-                    }
-		        }
+				for (auto & enemyUnit : nearbyEnemies)
+				{
+					// if its not a worker add it to the targets
+					if (!enemyUnit->getType().isWorker())
+					{
+						workersRemoved.insert(enemyUnit);
+					}
+					// if it is a worker
+					else
+					{
+						for (BWTA::Region * enemyRegion : InformationManager::Instance().getOccupiedRegions(BWAPI::Broodwar->enemy()))
+						{
+							// only add it if it's in their region
+							if (BWTA::getRegion(BWAPI::TilePosition(enemyUnit->getPosition())) == enemyRegion)
+							{
+								workersRemoved.insert(enemyUnit);
+							}
+						}
+					}
+				}
 
-		        // Allow micromanager to handle enemies
-		        executeMicro(workersRemoved);
-            }
-        }
-	}	
+				// Allow micromanager to handle enemies
+				executeMicro(workersRemoved);
+			}
+		}
+	}
+	else if (order.getType() == SquadOrderTypes::Load)
+	{
+		BWAPI::Unitset load_targets;
+		for (auto &u : BWAPI::Broodwar->getAllUnits())
+		{
+			if (u->getType() == BWAPI::UnitTypes::Protoss_Probe)
+			{
+				load_targets.insert(u);
+			}
+		}
+		executeMicro(load_targets);
+	}
 }
 
 const BWAPI::Unitset & MicroManager::getUnits() const 

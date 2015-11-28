@@ -20,17 +20,16 @@ void TransportManager::executeMicro(const BWAPI::Unitset & targets)
 	{
 		return;
 	}
+	else if (targets.empty())
+	{
+		return;
+	}
 	else
 	{
-		BWAPI::UnitCommand currentCommand(_transportShip->getLastCommand());
-
-		if (currentCommand.getType() == BWAPI::UnitCommandTypes::Load)
+		// load each unit in targets
+		for (auto &u : targets)
 		{
-			// load each unit in targets
-			for (auto &u : targets)
-			{
-				_transportShip->load(u);
-			}
+			_transportShip->load(u);
 		}
 	}
 }
