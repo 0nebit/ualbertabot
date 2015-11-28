@@ -13,7 +13,8 @@ MapTools::MapTools()
     : _rows(BWAPI::Broodwar->mapHeight())
     , _cols(BWAPI::Broodwar->mapWidth())
 {
-    _map    = std::vector<bool>(_rows*_cols,false);
+	_map = std::vector<bool>(_rows*_cols, false);
+	_flyMap = std::vector<bool>(_rows*_cols, true);
     _units  = std::vector<bool>(_rows*_cols,false);
     _fringe = std::vector<int>(_rows*_cols,0);
 
@@ -74,6 +75,34 @@ void MapTools::setBWAPIMapData()
 void MapTools::resetFringe()
 {
     std::fill(_fringe.begin(),_fringe.end(),0);
+}
+
+int MapTools::getAirDistance(BWAPI::Position origin, BWAPI::Position destination)
+{
+	// if we have too many maps, reset our stored maps in case we run out of memory
+	if (_allFlyMaps.size() > 20)
+	{
+		_allFlyMaps.clear();
+
+		BWAPI::Broodwar->printf("Cleared stored distance map cache");
+	}
+
+	// if we haven't yet computed the distance map to the destination
+	if (_allFlyMaps.find(destination) == _allFlyMaps.end())
+	{
+		// if we have computed the opposite direction, we can use that too
+		if (_allFlyMaps.find(origin) != _allFlyMaps.end())
+		{
+			return _allFlyMaps[origin][destination];
+		}
+
+		// add the map and compute it
+		_allFlyMaps.insert(std::pair<BWAPI::Position, DistanceMap>(destination, DistanceMap()));
+		computeDistance(_allFlyMaps[destination], destination);
+	}
+
+	// get the distance from the map
+	return _allFlyMaps[destination][origin];
 }
 
 int MapTools::getGroundDistance(BWAPI::Position origin,BWAPI::Position destination)
@@ -329,4 +358,16 @@ void MapTools::parseMap()
     BWAPI::Broodwar->printf(file.c_str());
 
     mapFile.close();
+}
+
+bool MapTools::isFlyable(int flyX, int flyY)
+{
+	if (flyX >= 0 && flyX <= _cols && flyY >= 0 && flyY <= _rows){
+		return true;
+	}
+	else {
+		return false;
+	}
+
+
 }
