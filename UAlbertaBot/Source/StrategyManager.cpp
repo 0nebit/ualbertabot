@@ -189,7 +189,7 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
 		}
 		
 		if (numInterceptors < numCarriers * 8) {
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Interceptor, numCarriers * 8));
+			//goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Interceptor, numCarriers * 8));
 		}
 
 		if (numNexusAll >= 2)

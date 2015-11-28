@@ -21,8 +21,9 @@ void CombatCommander::initializeSquads()
 	_squadData.addSquad("Idle", Squad("Idle", idleOrder, IdlePriority));
 
     // the main attack squad that will pressure the enemy's closest base location
-    SquadOrder mainAttackOrder(SquadOrderTypes::Attack, getMainAttackLocation(), 800, "Attack Enemy Base");
-	_squadData.addSquad("MainAttack", Squad("MainAttack", mainAttackOrder, AttackPriority));
+	SquadOrder mainAttackOrder(SquadOrderTypes::Attack, getMainAttackLocation(), 800, "Attack Enemy Base");
+	//SquadOrder mainAttackOrder(SquadOrderTypes::Defend, getDefendLocation(), 800, "Attack Enemy Base");
+	_squadData.addSquad("MainAttack", Squad("MainAttack", mainAttackOrder, BaseDefensePriority));
 
     BWAPI::Position ourBasePosition = BWAPI::Position(BWAPI::Broodwar->self()->getStartLocation());
 
