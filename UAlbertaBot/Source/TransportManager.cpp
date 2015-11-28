@@ -19,7 +19,15 @@ void TransportManager::executeMicro(const BWAPI::Unitset & targets)
 	if (transportUnits.empty())
 	{
 		return;
-	}	
+	}
+	else
+	{
+		// load each unit in targets
+		for (auto &u : targets)
+		{
+			_transportShip->load(u);
+		}
+	}
 }
 
 void TransportManager::calculateMapEdgeVertices()
