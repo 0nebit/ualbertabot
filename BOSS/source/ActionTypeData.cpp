@@ -251,7 +251,7 @@ void ActionTypeData::AddActions()
             type == BWAPI::UnitTypes::Zerg_Infested_Terran ||
             type == BWAPI::UnitTypes::Zerg_Infested_Command_Center ||
             type == BWAPI::UnitTypes::Zerg_Broodling ||
-            type == BWAPI::UnitTypes::Protoss_Interceptor ||
+            //type == BWAPI::UnitTypes::Protoss_Interceptor ||
             type == BWAPI::UnitTypes::Protoss_Scarab ||
             type == BWAPI::UnitTypes::Terran_Civilian ||
             type == BWAPI::UnitTypes::Terran_Nuclear_Missile ||
@@ -356,16 +356,17 @@ ActionID ActionTypeData::GetActionID(const BWAPI::UnitType & type)
     const RaceID raceID = GetRaceID(type.getRace());
     BOSS_ASSERT(raceID < Races::NUM_RACES, "Race ID invalid: %d %s", (int)raceID, type.getName().c_str());
 
-
-    for (ActionID a(0); a < ActionTypeData::GetNumActionTypes(raceID); ++a)
+	for (ActionID a(0); a < ActionTypeData::GetNumActionTypes(raceID); ++a)
     {
         const ActionTypeData & data = GetActionTypeData(raceID, a);
         if (data.isUnit() && data.getUnitType() == type)
         {
+			//BWAPI::Broodwar->printf("unit found");
             return data.getActionID();
         }
     }
    
+	BWAPI::Broodwar->printf("Unit not found");
 	BOSS_ASSERT(false, "Could not find UnitType: %d %s", type.getID(), type.getName().c_str());
     return 0;
 }

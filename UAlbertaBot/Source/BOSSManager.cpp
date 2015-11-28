@@ -52,7 +52,6 @@ void BOSSManager::startNewSearch(const std::vector<MetaPair> & goalUnits)
     try
     {
         BOSS::BuildOrderSearchGoal goal = GetGoal(goalUnits);
-
 		BOSS::GameState initialState(BWAPI::Broodwar, BWAPI::Broodwar->self(), BuildingManager::Instance().buildingsQueued());
 
 		_smartSearch = SearchPtr(new BOSS::DFBB_BuildOrderSmartSearch(initialState.getRace()));
@@ -243,9 +242,9 @@ void BOSSManager::logBadSearch()
 BOSS::BuildOrderSearchGoal BOSSManager::GetGoal(const std::vector<MetaPair> & goalUnits)
 {
 	BOSS::BuildOrderSearchGoal goal(BOSS::Races::GetRaceID(BWAPI::Broodwar->self()->getRace()));
-
 	for (size_t i=0; i<goalUnits.size(); ++i)
 	{
+		BOSS::ActionType g = GetActionType(goalUnits[i].first);
 		goal.setGoal(GetActionType(goalUnits[i].first), goalUnits[i].second);
 	}
 
