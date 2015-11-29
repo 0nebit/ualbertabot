@@ -133,6 +133,8 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
 	int numCore				= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Cybernetics_Core);
 	int numRobo				= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Robotics_Facility);
 
+	int numShuttles		    = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Shuttle);
+
     if (Config::Strategy::StrategyName == "Protoss_ZealotRush")
     {
         goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 8));
@@ -171,6 +173,10 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
     }
 	else if (Config::Strategy::StrategyName == "Protoss_Air")
 	{
+		if (numShuttles < 2)
+		{
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Shuttle, 1));
+		}
 		if (numZealots == 0)
 		{
 			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 2));

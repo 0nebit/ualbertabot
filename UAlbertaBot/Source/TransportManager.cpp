@@ -48,15 +48,27 @@ void TransportManager::load(void)
 	}
 	else
 	{
-		BWAPI::Broodwar->printf("Has transport units");
+		//BWAPI::Broodwar->printf("Has transport units");
 		// load each unit
 		for (auto &u : transportUnits)
 		{
+			if (!_transportShip)
+			{
+				//BWAPI::Broodwar->printf("No ship!!!");
+			}
+			else
+			{
+				BWAPI::Broodwar->printf("Loading unit to shuttle");
+				Micro::SmartRightClick(u, _transportShip);
+				_transportShip->load(u, true);
+			}
+			/*
 			if (u->getType() != BWAPI::UnitTypes::Protoss_Shuttle)
 			{
 				BWAPI::Broodwar->printf("Loading");
-				_transportShip->load(u);
+				_transportShip->load(u, true);
 			}
+			*/
 		}
 	}
 }
