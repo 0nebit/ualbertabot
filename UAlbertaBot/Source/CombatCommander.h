@@ -14,6 +14,7 @@ class CombatCommander
     BWAPI::Unitset  _combatUnits;
     bool            _initialized;
 
+	void			updateAlwaysDefendSquads();
     void            updateScoutDefenseSquad();
 	void            updateDefenseSquads();
 	void            updateAttackSquads();

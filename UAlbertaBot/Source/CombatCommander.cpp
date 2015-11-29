@@ -74,6 +74,7 @@ void CombatCommander::update(const BWAPI::Unitset & combatUnits)
         updateDropSquads();
         updateScoutDefenseSquad();
 		updateDefenseSquads();
+		updateAlwaysDefendSquads();
 		updateAttackSquads();
 	}
 
@@ -93,9 +94,16 @@ void CombatCommander::updateIdleSquad()
     }
 }
 
-void CombatCommander::updateAttackSquads()
+void CombatCommander::updateAlwaysDefendSquads()
 {
-    Squad & mainAttackSquad = _squadData.getSquad("MainAttack");
+	if (BWAPI::Broodwar->self()->supplyUsed() > 100){
+		if (_squadData.squadExists("Defend"))
+		{
+			_squadData.getSquad("Defend").clear();
+		}
+		return;
+	}
+    Squad & defendSquad = _squadData.getSquad("Defend");
 
     for (auto & unit : _combatUnits)
     {
@@ -105,14 +113,36 @@ void CombatCommander::updateAttackSquads()
         }
 
         // get every unit of a lower priority and put it into the attack squad
-        if (!unit->getType().isWorker() && (unit->getType() != BWAPI::UnitTypes::Zerg_Overlord) && _squadData.canAssignUnitToSquad(unit, mainAttackSquad))
+        if (!unit->getType().isWorker() && (unit->getType() != BWAPI::UnitTypes::Zerg_Overlord) && _squadData.canAssignUnitToSquad(unit, defendSquad))
         {
-            _squadData.assignUnitToSquad(unit, mainAttackSquad);
+            _squadData.assignUnitToSquad(unit, defendSquad);
         }
     }
 
-    SquadOrder mainAttackOrder(SquadOrderTypes::Attack, getMainAttackLocation(), 800, "Attack Enemy Base");
-    mainAttackSquad.setSquadOrder(mainAttackOrder);
+    SquadOrder defendOrder(SquadOrderTypes::Defend, getDefendLocation(), 800, "Defend Start Base");
+    defendSquad.setSquadOrder(defendOrder);
+}
+
+void CombatCommander::updateAttackSquads()
+{
+	Squad & mainAttackSquad = _squadData.getSquad("MainAttack");
+
+	for (auto & unit : _combatUnits)
+	{
+		if (unit->getType() == BWAPI::UnitTypes::Zerg_Scourge && UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Zerg_Hydralisk) < 30)
+		{
+			continue;
+		}
+
+		// get every unit of a lower priority and put it into the attack squad
+		if (!unit->getType().isWorker() && (unit->getType() != BWAPI::UnitTypes::Zerg_Overlord) && _squadData.canAssignUnitToSquad(unit, mainAttackSquad))
+		{
+			_squadData.assignUnitToSquad(unit, mainAttackSquad);
+		}
+	}
+
+	SquadOrder mainAttackOrder(SquadOrderTypes::Attack, getMainAttackLocation(), 800, "Attack Enemy Base");
+	mainAttackSquad.setSquadOrder(mainAttackOrder);
 }
 
 void CombatCommander::updateDropSquads()
