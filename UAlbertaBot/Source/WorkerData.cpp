@@ -330,7 +330,7 @@ int WorkerData::getMineralsNearDepot(BWAPI::Unit depot)
 
 	for (auto & unit : BWAPI::Broodwar->getAllUnits())
 	{
-		if ((unit->getType() == BWAPI::UnitTypes::Resource_Mineral_Field) && unit->getDistance(depot) < 200)
+		if ((unit->getType() == BWAPI::UnitTypes::Resource_Mineral_Field) && unit->getDistance(depot) < 200 && unit->getResources() != 0)
 		{
 			mineralsNearDepot++;
 		}
