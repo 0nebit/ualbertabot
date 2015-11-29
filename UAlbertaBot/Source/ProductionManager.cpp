@@ -461,7 +461,16 @@ bool ProductionManager::detectBuildOrderDeadlock()
         }
 	}
 
-	return false;
+	// If cannot build item (building was destroyed etc.), there's a deadlock
+	BWAPI::UnitType builder = _queue.getHighestPriorityItem().metaType.whatBuilds();
+	for (auto & unit : BWAPI::Broodwar->self()->getUnits())
+	{
+		if (unit->getType() == builder) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 // When the next item in the _queue is a building, this checks to see if we should move to it

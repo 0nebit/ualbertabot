@@ -82,6 +82,7 @@ void Squad::update()
 		}
 		_transportManager.executeMicro(load_targets);
 		*/
+		_transportManager.load();
 		_transportManager.update();
 
 		_detectorManager.setUnitClosestToEnemy(unitClosestToEnemy());

@@ -20,21 +20,46 @@ void TransportManager::executeMicro(const BWAPI::Unitset & targets)
 	{
 		return;
 	}
+	/*
 	else if (targets.empty())
 	{
 		return;
 	}
+	*/
 	else
 	{
 		// load each unit in targets
-		for (auto &u : targets)
+		for (auto &u : transportUnits)
 		{
+			if (u->getType() != BWAPI::UnitTypes::Protoss_Shuttle)
 			BWAPI::Broodwar->printf("Loading");
 			_transportShip->load(u);
 		}
 	}
 }
 
+void TransportManager::load(void)
+{
+	const BWAPI::Unitset & transportUnits = getUnits();
+
+	if (transportUnits.empty())
+	{
+		return;
+	}
+	else
+	{
+		BWAPI::Broodwar->printf("Has transport units");
+		// load each unit
+		for (auto &u : transportUnits)
+		{
+			if (u->getType() != BWAPI::UnitTypes::Protoss_Shuttle)
+			{
+				BWAPI::Broodwar->printf("Loading");
+				_transportShip->load(u);
+			}
+		}
+	}
+}
 void TransportManager::calculateMapEdgeVertices()
 {
 	BWTA::BaseLocation * enemyBaseLocation = InformationManager::Instance().getMainBaseLocation(BWAPI::Broodwar->enemy());

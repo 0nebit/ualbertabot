@@ -38,5 +38,6 @@ public:
 	void							setTransportShip(BWAPI::UnitInterface * unit);
 	void							setFrom(BWAPI::Position from);
 	void							setTo(BWAPI::Position to);
+	void							load(void); // loads own units in same squad
 };
 }

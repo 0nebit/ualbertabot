@@ -192,43 +192,27 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
 		}
 
 		// Buildings
-		// Build fleet beacon and upgrade carrier capacity
-		//if (numBeacon == 0 && numStargate >= 1)
-		//{
-		//	goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Fleet_Beacon, 1));
-		//	goal.push_back(MetaPair(BWAPI::UpgradeTypes::Carrier_Capacity, 1));
-		//}
-
-		//// Build to 4 gateways during carrier production
-		//if (numGateways < 4 && numCarriers >= 1) {
-		//	goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Gateway, 4));
-		//}
-		//else if (numGateways < 2) {
-		//	goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Gateway, 2));
-		//}
-		//
-		//if (numCore == 0) {
-		//	goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1));
-		//}
-
-		//if (numRobo == 0) {
-		//	goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Robotics_Facility, 1));
-		//}
-
-		//if (numStargate < 2)
-		//{
-		//	goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Stargate, 2));
-		//}
 
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Fleet_Beacon, 1));
 		goal.push_back(MetaPair(BWAPI::UpgradeTypes::Carrier_Capacity, 1));
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Gateway, 4));
-		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Gateway, 2));
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1));
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Robotics_Facility, 1));
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Stargate, 2));
+		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Photon_Cannon, 4));
+		
 
-		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Assimilator, numNexusCompleted));
+		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Assimilator, numNexusAll));
+
+
+		//int frame = BWAPI::Broodwar->getFrameCount();
+		//int minute = frame / (24 * 60);
+
+		//if (minute >= 15) {
+		//	goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Arbiter, 1));
+		//}
+
+
 
 	}
     else
