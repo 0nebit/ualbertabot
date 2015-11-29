@@ -173,12 +173,7 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
 	{
 		if (numZealots == 0)
 		{
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 2));
 			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Shuttle, 1));
-		}
-		else
-		{
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 2));
 		}
 
 		// Units
