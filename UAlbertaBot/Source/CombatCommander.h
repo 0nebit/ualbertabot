@@ -12,7 +12,8 @@ class CombatCommander
 {
 	SquadData       _squadData;
     BWAPI::Unitset  _combatUnits;
-    bool            _initialized;
+	bool            _initialized;
+	bool            stillDefending;
 
 	void			updateAlwaysDefendSquads();
     void            updateScoutDefenseSquad();

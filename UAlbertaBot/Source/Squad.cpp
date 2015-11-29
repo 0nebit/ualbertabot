@@ -278,7 +278,14 @@ bool Squad::needsToRegroup()
 		return false;
 	}
 
-    bool retreat = score < 0;
+	int numCarriers = UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Carrier);
+	bool retreat;
+
+	if (numCarriers < 3){
+		retreat = score < 0;
+	} else {
+		retreat = false;
+	}
     int switchTime = 100;
     bool waiting = false;
 
