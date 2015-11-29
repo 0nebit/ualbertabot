@@ -170,6 +170,15 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
 	else if (Config::Strategy::StrategyName == "Protoss_Air")
 	{
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 2));
+		if (numZealots == 0)
+		{
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 4));
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Shuttle, 1));
+		}
+		else
+		{
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 8));
+		}
 
 		if (numStargate >= 1) {
 			if (numCarriers < 5){

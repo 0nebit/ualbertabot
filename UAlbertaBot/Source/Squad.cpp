@@ -66,7 +66,22 @@ void Squad::update()
         _tankManager.execute(_order);
         _medicManager.execute(_order);
 		// may need to change here
-		_transportManager.execute(_order);
+		//_transportManager.execute(_order);
+		/*
+		BWAPI::Unitset load_targets;
+		for (auto &u : BWAPI::Broodwar->getAllUnits())
+		{
+			if (u->getType() == BWAPI::UnitTypes::Protoss_Zealot)
+			{
+				load_targets.insert(u);
+				if (load_targets.size() == 2)
+				{
+					break;
+				}
+			}
+		}
+		_transportManager.executeMicro(load_targets);
+		*/
 		_transportManager.update();
 
 		_detectorManager.setUnitClosestToEnemy(unitClosestToEnemy());

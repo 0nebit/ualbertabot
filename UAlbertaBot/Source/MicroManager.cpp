@@ -48,12 +48,12 @@ void MicroManager::execute(const SquadOrder & inputOrder)
 	if (order.getType() == SquadOrderTypes::Defend)
 	{
 		MapGrid::Instance().GetUnits(nearbyEnemies, order.getPosition(), order.getRadius(), false, true);
-	
+
 	} // otherwise we want to see everything on the way
-	else if (order.getType() == SquadOrderTypes::Attack) 
+	else if (order.getType() == SquadOrderTypes::Attack)
 	{
 		MapGrid::Instance().GetUnits(nearbyEnemies, order.getPosition(), order.getRadius(), false, true);
-		for (auto & unit : _units) 
+		for (auto & unit : _units)
 		{
 			BWAPI::Unit u = unit;
 			BWAPI::UnitType t = u->getType();
@@ -110,18 +110,24 @@ void MicroManager::execute(const SquadOrder & inputOrder)
 			}
 		}
 	}
+	/*
 	else if (order.getType() == SquadOrderTypes::Load)
 	{
 		BWAPI::Unitset load_targets;
 		for (auto &u : BWAPI::Broodwar->getAllUnits())
 		{
-			if (u->getType() == BWAPI::UnitTypes::Protoss_Probe)
+			if (u->getType() == BWAPI::UnitTypes::Protoss_Zealot)
 			{
 				load_targets.insert(u);
+				if (load_targets.size() == 2)
+				{
+					break;
+				}
 			}
 		}
 		executeMicro(load_targets);
 	}
+	*/
 }
 
 const BWAPI::Unitset & MicroManager::getUnits() const 

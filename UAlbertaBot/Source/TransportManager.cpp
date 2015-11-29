@@ -29,6 +29,7 @@ void TransportManager::executeMicro(const BWAPI::Unitset & targets)
 		// load each unit in targets
 		for (auto &u : targets)
 		{
+			BWAPI::Broodwar->printf("Loading");
 			_transportShip->load(u);
 		}
 	}

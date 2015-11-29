@@ -37,6 +37,11 @@ void CombatCommander::initializeSquads()
         SquadOrder zealotDrop(SquadOrderTypes::Drop, ourBasePosition, 900, "Wait for transport");
         _squadData.addSquad("Drop", Squad("Drop", zealotDrop, DropPriority));
     }
+	if (Config::Strategy::StrategyName == "Protoss_Air")
+	{
+		SquadOrder zealotDrop(SquadOrderTypes::Drop, ourBasePosition, 900, "Wait for transport");
+		_squadData.addSquad("Drop", Squad("Drop", zealotDrop, DropPriority));
+	}
 
     _initialized = true;
 }
@@ -110,11 +115,18 @@ void CombatCommander::updateAttackSquads()
 
 void CombatCommander::updateDropSquads()
 {
+	/*
     if (Config::Strategy::StrategyName != "Protoss_Drop")
     {
         return;
     }
+	*/
+	if (Config::Strategy::StrategyName != "Protoss_Air")
+	{
+		return;
+	}
 
+	//BWAPI::Broodwar->printf("DROP");
     Squad & dropSquad = _squadData.getSquad("Drop");
 
     // figure out how many units the drop squad needs
