@@ -34,6 +34,8 @@ void Squad::update()
 	// determine whether or not we should regroup
 	bool needToRegroup = needsToRegroup();
     
+	_transportManager.load();
+
 	// draw some debug info
 	if (Config::Debug::DrawSquadInfo && _order.getType() == SquadOrderTypes::Attack) 
 	{
