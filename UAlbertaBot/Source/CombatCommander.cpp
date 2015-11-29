@@ -136,8 +136,10 @@ void CombatCommander::updateDropSquads()
 
     for (auto & unit : dropUnits)
     {
+		//BWAPI::Broodwar->printf("Found 1 DROP");
         if (unit->isFlying() && unit->getType().spaceProvided() > 0)
         {
+			//BWAPI::Broodwar->printf("Found 1 DROP");
             dropSquadHasTransport = true;
         }
         else
