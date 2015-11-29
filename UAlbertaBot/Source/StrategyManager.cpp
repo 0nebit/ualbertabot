@@ -71,7 +71,7 @@ const bool StrategyManager::shouldExpandNow() const
     }
 
     // we will make expansion N after array[N] minutes have passed
-    std::vector<int> expansionTimes = {5, 10, 20, 30, 40 , 50};
+    std::vector<int> expansionTimes = {2, 7, 15, 20, 30 , 40};
 
     for (size_t i(0); i < expansionTimes.size(); ++i)
     {
@@ -128,8 +128,10 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
 
 	int numCarriers			= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Carrier);
 	int numStargate			= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Stargate);
-	int numInterceptors		= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Interceptor);
 	int numBeacon			= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Fleet_Beacon);
+	int numGateways			= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Gateway);
+	int numCore				= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Cybernetics_Core);
+	int numRobo				= UnitUtil::GetAllUnitCount(BWAPI::UnitTypes::Protoss_Robotics_Facility);
 
     if (Config::Strategy::StrategyName == "Protoss_ZealotRush")
     {
@@ -169,42 +171,65 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
     }
 	else if (Config::Strategy::StrategyName == "Protoss_Air")
 	{
-		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 2));
 		if (numZealots == 0)
 		{
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 4));
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 2));
 			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Shuttle, 1));
 		}
 		else
 		{
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 8));
+			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 2));
 		}
 
+		// Units
+		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 4));
+
 		if (numStargate >= 1) {
-			if (numCarriers < 5){
+			if (numBeacon == 1){
 				goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Carrier, numCarriers + 1));
 			}
 			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Scout, numScout + 1));
 		}
 
-		if (numBeacon == 0)
-		{
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Fleet_Beacon, 1));
-		}
+		// Buildings
+		// Build fleet beacon and upgrade carrier capacity
+		//if (numBeacon == 0 && numStargate >= 1)
+		//{
+		//	goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Fleet_Beacon, 1));
+		//	goal.push_back(MetaPair(BWAPI::UpgradeTypes::Carrier_Capacity, 1));
+		//}
 
-		if (numStargate < 2)
-		{
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Stargate, 1));
-		}
+		//// Build to 4 gateways during carrier production
+		//if (numGateways < 4 && numCarriers >= 1) {
+		//	goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Gateway, 4));
+		//}
+		//else if (numGateways < 2) {
+		//	goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Gateway, 2));
+		//}
+		//
+		//if (numCore == 0) {
+		//	goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1));
+		//}
 
-		if (numNexusAll >= 2)
-		{
-			if (numStargate <= 1) {
-				goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Stargate, 1));
-				goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Fleet_Beacon, 1));
-				goal.push_back(MetaPair(BWAPI::UpgradeTypes::Carrier_Capacity, 1));
-			}
-		}
+		//if (numRobo == 0) {
+		//	goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Robotics_Facility, 1));
+		//}
+
+		//if (numStargate < 2)
+		//{
+		//	goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Stargate, 2));
+		//}
+
+		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Fleet_Beacon, 1));
+		goal.push_back(MetaPair(BWAPI::UpgradeTypes::Carrier_Capacity, 1));
+		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Gateway, 4));
+		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Gateway, 2));
+		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1));
+		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Robotics_Facility, 1));
+		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Stargate, 2));
+
+		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Assimilator, numNexusCompleted));
+
 	}
     else
     {
