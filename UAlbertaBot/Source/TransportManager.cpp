@@ -58,7 +58,7 @@ void TransportManager::load(void)
 			}
 			else
 			{
-				BWAPI::Broodwar->printf("Loading unit to shuttle");
+				//BWAPI::Broodwar->printf("Loading unit to shuttle");
 				Micro::SmartRightClick(u, _transportShip);
 				_transportShip->load(u, true);
 			}
