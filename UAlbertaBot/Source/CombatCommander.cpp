@@ -149,12 +149,12 @@ void CombatCommander::updateAttackSquads()
 
 void CombatCommander::updateDropSquads()
 {
-	/*
+	
     if (Config::Strategy::StrategyName != "Protoss_Drop")
     {
         return;
     }
-	*/
+	
 	if (Config::Strategy::StrategyName != "Protoss_Air")
 	{
 		return;

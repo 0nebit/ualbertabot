@@ -173,18 +173,6 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
     }
 	else if (Config::Strategy::StrategyName == "Protoss_Air")
 	{
-		if (numShuttles < 2)
-		{
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Shuttle, 1));
-		}
-		if (numZealots == 0)
-		{
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 2));
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Shuttle, 1));
-		}
-		else {
-			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 2));
-		}
 
 		// Units
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 4));
@@ -202,14 +190,15 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
 		goal.push_back(MetaPair(BWAPI::UpgradeTypes::Carrier_Capacity, 1));
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Gateway, 4));
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1));
-		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Robotics_Facility, 1));
+		//goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Robotics_Facility, 1));
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Stargate, 2));
-		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Photon_Cannon, 4));
+		//goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Photon_Cannon, 1));
 		
 
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Assimilator, numNexusAll));
 
 
+		// Add Arbiter after 15 minutes
 		//int frame = BWAPI::Broodwar->getFrameCount();
 		//int minute = frame / (24 * 60);
 

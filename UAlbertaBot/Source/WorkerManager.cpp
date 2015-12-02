@@ -427,6 +427,17 @@ BWAPI::Unit WorkerManager::getBuilder(Building & b, bool setJobAsBuilder)
 				closestMovingWorkerDistance = distance;
 			}
 		}
+
+		// idle worker check
+		if (unit->isCompleted() && (workerData.getWorkerJob(unit) == WorkerData::Idle))
+		{
+			double distance = unit->getDistance(BWAPI::Position(b.finalPosition));
+			if (!closestMovingWorker || distance < closestMovingWorkerDistance)
+			{
+				closestMovingWorker = unit;
+				closestMovingWorkerDistance = distance;
+			}
+		}
 	}
 
 	// if we found a moving worker, use it, otherwise using a mining worker
