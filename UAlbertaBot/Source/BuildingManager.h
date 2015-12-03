@@ -17,6 +17,7 @@ class BuildingManager
     bool            _debugMode;
     int             _reservedMinerals;				// minerals reserved for planned buildings
     int             _reservedGas;					// gas reserved for planned buildings
+	BWAPI::TilePosition aTile;
 
     bool            isEvolvedBuilding(BWAPI::UnitType type);
     bool            isBuildingPositionExplored(const Building & b) const;

@@ -178,7 +178,7 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Zealot, numZealots + 4));
 
 		if (numStargate >= 1) {
-			if (numBeacon == 1){
+			if (numBeacon >= 1){
 				goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Carrier, numCarriers + 1));
 			}
 			goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Scout, numScout + 1));
@@ -188,7 +188,7 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
 
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Fleet_Beacon, 1));
 		goal.push_back(MetaPair(BWAPI::UpgradeTypes::Carrier_Capacity, 1));
-		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Gateway, 4));
+		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Gateway, 1));
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Cybernetics_Core, 1));
 		//goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Robotics_Facility, 1));
 		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Stargate, 2));
@@ -223,7 +223,7 @@ const MetaPairVector StrategyManager::getProtossBuildOrderGoal() const
     // add observer to the goal if the enemy has cloaked units
 	if (InformationManager::Instance().enemyHasCloakedUnits())
 	{
-		goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Robotics_Facility, 1));
+		//goal.push_back(MetaPair(BWAPI::UnitTypes::Protoss_Robotics_Facility, 1));
 		
 		if (BWAPI::Broodwar->self()->completedUnitCount(BWAPI::UnitTypes::Protoss_Robotics_Facility) > 0)
 		{

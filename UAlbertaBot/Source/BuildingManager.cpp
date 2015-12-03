@@ -444,6 +444,21 @@ BWAPI::TilePosition BuildingManager::getBuildingLocation(const Building & b)
         distance = Config::Macro::PylonSpacing;
     }
 
+	//Place a pylon near starting chokepoint
+	if ((b.type == BWAPI::UnitTypes::Protoss_Pylon && numPylons == 0) || b.type == BWAPI::UnitTypes::Protoss_Photon_Cannon || b.type == BWAPI::UnitTypes::Protoss_Forge){
+
+		BWAPI::TilePosition dTile = BWAPI::TilePosition(BWTA::getNearestChokepoint(BWAPI::Broodwar->self()->getStartLocation())->getCenter());
+
+		if (b.type == BWAPI::UnitTypes::Protoss_Pylon){
+			aTile = BWAPI::Broodwar->getBuildLocation(b.type, dTile, 64, false);
+			return aTile;
+		}
+		else {
+			return BWAPI::Broodwar->getBuildLocation(b.type, aTile, 64, false);
+		}
+
+	}
+
     // get a position within our region
     return BuildingPlacer::Instance().getBuildLocationNear(b,distance,false);
 }
